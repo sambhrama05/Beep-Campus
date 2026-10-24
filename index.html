@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beep Campus: learn, ask, certify</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1c1a1d;--mu:#7a6d70;--ac:#d9822b;--navy:#071e2b;--ok:#2e9e6a;--bad:#d4493f;--card:rgba(255,255,255,.55);--bd:rgba(255,255,255,.7);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font:16px/1.4 "Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);background:#d9c4c6;min-height:100vh}
+#app{max-width:430px;margin:0 auto;min-height:100vh;background:linear-gradient(#e3bdbd 0,#f4dcdc 22%,#fdfbf1 55%);position:relative;padding:14px 18px 120px;overflow:hidden}
+.top{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+.search{flex:1;display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.65);border-radius:999px;padding:0 16px;height:50px;border:1px solid var(--bd)}
+.search input{border:0;background:transparent;font:inherit;width:100%;outline:0;color:var(--ink)}
+.streak{height:50px;border-radius:18px;background:rgba(255,255,255,.65);border:1px solid var(--bd);padding:0 16px;display:flex;align-items:center;gap:4px;font-weight:800;font-size:1.3rem}
+.av{width:50px;height:50px;border-radius:50%;background:#2c5a4f;color:#fff;font-weight:800;border:0;font-size:1.2rem;padding:0;flex:none;cursor:pointer}
+h2{font-size:1.35rem;font-weight:800;margin:20px 2px 10px;letter-spacing:-.01em}
+.sub{color:var(--mu);margin:-4px 2px 12px}
+.glass{background:var(--card);border:1px solid var(--bd);border-radius:28px;padding:18px;margin-bottom:14px}
+.prog{display:flex;gap:18px;align-items:center}
+.shield{width:92px;height:104px;flex:none;background:linear-gradient(160deg,#ffd75e,#e69a1f);clip-path:polygon(50% 0,100% 12%,100% 62%,50% 100%,0 62%,0 12%);display:grid;place-items:center;font-size:2.4rem}
+.bar{height:9px;border-radius:9px;background:rgba(0,0,0,.12);overflow:hidden;flex:1}.bar i{display:block;height:100%;background:var(--ac);border-radius:9px;transition:width .6s}
+.hero{border-radius:32px;color:#fff;padding:22px;min-height:340px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;margin:0 0 14px;background-size:cover;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(#0000 35%,#0008);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero .tag{position:absolute;top:18px;left:18px;background:rgba(0,0,0,.28);backdrop-filter:blur(6px);padding:8px 16px;border-radius:14px;font-weight:800;letter-spacing:.08em;font-size:.85rem}
+.hero .em{position:absolute;top:60px;right:20px;font-size:5.5rem;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.hero h3{font-size:1.7rem;line-height:1.12;margin:6px 0 8px;font-weight:800}
+.hero small{opacity:.9}
+.pill{background:#fff;color:var(--ink);border:0;border-radius:18px;padding:14px 22px;font:inherit;font-weight:800;font-size:1.05rem;margin-top:14px;align-self:flex-start;cursor:pointer}
+.dark{background:var(--navy);color:#fff;border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
+.dark.sm{width:auto;padding:10px 20px}.dark:disabled{opacity:.45;cursor:not-allowed}
+.cont{display:flex;gap:14px;align-items:center;background:#fff;border-radius:26px;padding:10px;cursor:pointer}
+.cont.lock{opacity:.55;filter:grayscale(.7);cursor:not-allowed}
+.th{width:80px;height:80px;border-radius:20px;display:grid;place-items:center;font-size:2.4rem;flex:none}
+.cont b{font-size:1.05rem;line-height:1.2;display:block}.res{color:var(--ac);font-weight:800;margin-top:6px;display:block}
+.h-scroll{display:flex;gap:14px;overflow-x:auto;margin:0 -18px;padding:0 18px 6px;scroll-snap-type:x mandatory}
+.h-scroll .hero{min-width:80%;scroll-snap-align:start;min-height:300px}
+.big{font-size:3.3rem;font-weight:800;line-height:1;color:rgba(0,0,0,.18);margin:26px 2px 12px}.big span{display:block;color:rgba(0,0,0,.22);font-size:4rem}
+.tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(394px,calc(100% - 28px));background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-radius:999px;padding:6px;display:flex;gap:2px;box-shadow:0 8px 28px rgba(0,0,0,.12);z-index:9}
+.tabs button{flex:1;border:0;background:transparent;border-radius:999px;padding:8px 2px;font:inherit;font-size:.72rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.tabs button span{font-size:1.35rem;line-height:1.1}.tabs button[aria-selected=true]{background:#e8ecf2;color:#2457d6}
+:focus-visible{outline:3px solid #2457d6;outline-offset:2px}
+.chip{display:inline-block;padding:3px 12px;border-radius:999px;background:rgba(255,255,255,.8);font-size:.8rem;font-weight:600;margin-right:6px}
+input.f,textarea.f,select.f{width:100%;font:inherit;padding:12px 14px;border-radius:16px;border:1px solid rgba(0,0,0,.12);background:#fff;color:var(--ink);margin:6px 0 10px}
+.post{background:#fff;border-radius:26px;padding:16px;margin:12px 0}
+.post h4{margin:8px 0;font-size:1.05rem}
+.ans{border-left:3px solid #2c5a4f;padding:2px 0 2px 10px;margin:8px 0;font-size:.95rem}.ans.ai{border-color:var(--ac)}
+.link{background:none;border:0;color:var(--ac);font:inherit;font-weight:800;cursor:pointer;padding:6px 10px 6px 0}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.4);display:grid;align-items:end;z-index:20}
+.sheet>div{max-width:430px;width:100%;margin:0 auto;background:#fffaf4;border-radius:28px 28px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom,0px))}
+.opts button{display:block;width:100%;text-align:left;background:#fff;border:2px solid transparent;border-radius:16px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opts button[aria-pressed=true]{border-color:var(--ac);background:#fff3e6}
+[hidden]{display:none!important}
+.cert{border:3px double var(--ac);border-radius:22px;text-align:center;padding:26px 12px;background:#fff;margin:12px 0}
+/* learning path + chat */
+.steps{display:flex;gap:6px;margin:10px 0 0}
+.stp{flex:1;text-align:center;font-size:.68rem;padding:8px 2px;border-radius:12px;background:#fff;border:1px solid #ecd6d3;color:var(--mu);font-weight:600}
+.stp.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:800}.stp.ok{color:var(--ok);border-color:var(--ok)}
+.dots{display:flex;gap:6px;margin-top:12px}
+.dot{flex:1;height:38px;border-radius:12px;background:#fff;border:1px solid #ecd6d3;display:grid;place-items:center;font-size:1rem}
+.dot.d{background:var(--ac);border-color:var(--ac)}.dot.c{border:2px solid var(--ac)}
+.ov{position:fixed;inset:0;background:linear-gradient(#f4dcdc,#fdfbf1 40%);z-index:30;overflow:auto;padding:14px 18px 40px}
+.ov>div{max-width:430px;margin:0 auto}
+.back{border:0;background:#fff;border-radius:50%;width:42px;height:42px;font-size:1.2rem;cursor:pointer;margin-bottom:10px}
+.pt{background:#fff;border-radius:20px;padding:14px;margin:10px 0}
+.opt{display:block;width:100%;text-align:left;font:inherit;background:#fff;border:1px solid #ecd6d3;border-radius:16px;padding:13px;margin-top:8px;cursor:pointer;color:var(--ink)}
+.opt.ok{background:var(--ok);color:#fff}.opt.no{background:var(--bad);color:#fff}
+.pop{text-align:center;font-size:1.5rem;font-weight:800;padding:18px 0}
+#fab{position:fixed;right:max(14px,calc(50% - 201px));bottom:calc(92px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:0;background:var(--ac);color:#fff;font-size:1.6rem;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer;z-index:10}
+#log{display:flex;flex-direction:column;gap:8px;margin:12px 0;min-height:180px}
+.bub{background:#fff;border:1px solid #ecd6d3;border-radius:16px;padding:10px 13px;max-width:88%;white-space:pre-wrap;font-size:.92rem}
+.bub.me{align-self:flex-end;background:var(--navy);color:#fff;border:0}
+.chips button{border:1px solid #ecd6d3;background:#fff;border-radius:99px;padding:8px 12px;font:inherit;font-size:.78rem;cursor:pointer;color:var(--ink);margin:0 6px 6px 0}
+.row{display:flex;gap:8px;margin-top:10px}.row input{flex:1;border:1px solid #ecd6d3;border-radius:14px;padding:12px;font:inherit;background:#fff;color:var(--ink)}
+.row .dark{width:auto;margin:0;padding:12px 20px}
+.cc{border:1px solid #ecd6d3;background:#fff;border-radius:99px;padding:8px 14px;font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--ink);white-space:nowrap}
+.cc.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.bar2{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;margin:0 -2px}
+.rp{display:flex;gap:12px}
+.vt{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:34px}
+.vt button{border:0;background:#f3e6e0;border-radius:10px;width:34px;height:30px;cursor:pointer;font-size:.85rem;color:var(--ink)}
+.vt button.on{background:var(--ac);color:#fff}
+.pb{flex:1;min-width:0}
+.meta{color:var(--mu);font-size:.8rem;margin:2px 0 6px}
+.body{white-space:pre-wrap;word-wrap:break-word;margin:4px 0 8px;font-size:.95rem}
+details.glass summary{font-weight:800;cursor:pointer;font-size:1.05rem}
+</style></head><body><div id="app">
+<div class="top"><label class="search"><span aria-hidden="true">🔍</span><input id="q" placeholder="Search skills, topics" aria-label="Search skills and topics"></label><div class="streak">🔥1</div><button class="av" id="av" aria-label="Edit your profile">A</button></div>
+
+<main id="home"></main>
+
+<main id="comm" hidden>
+<h2 style="margin-top:4px">Community</h2><p class="sub">Share internships, get project help, ask doubts. Upvote what helps.</p>
+<details class="glass"><summary>✍️ Create a post</summary>
+<label for="pch" class="sub" style="margin:8px 0 0;display:block">Channel</label><select class="f" id="pch"><option>Internships</option><option>Projects</option><option>Doubts</option><option>Resources</option></select>
+<label for="ptitle" class="sub" style="margin:0;display:block">Title</label><input class="f" id="ptitle" maxlength="140" placeholder="e.g. Social media intern wanted, remote, 3 months">
+<label for="pbody" class="sub" style="margin:0;display:block">Details</label><textarea class="f" id="pbody" rows="3" maxlength="1200" placeholder="What is it? Who is it for? How to apply, or what you are stuck on?"></textarea>
+<label for="plink" class="sub" style="margin:0;display:block">Link (optional)</label><input class="f" id="plink" placeholder="https://...">
+<button class="dark" id="post">Post</button><p class="sub" id="cst" style="margin:8px 0 0"></p></details>
+<div class="bar2" id="chbar"></div><div class="bar2" id="sortbar"></div>
+<div id="feed"></div></main>
+
+<main id="explore" hidden><h2 style="margin-top:4px">Explore</h2><p class="sub" id="esub"></p><div id="elist"></div></main>
+
+<main id="certs" hidden><h2 style="margin-top:4px">My Certificates</h2>
+<div class="glass"><b style="font-size:1.1rem">How certificates work</b>
+<p style="margin:8px 0 0">Learning, the assessment and the certificate are all <b>free</b>. The assessment is open any time. Pass with 50% or more and your certificate appears here. Nothing to unlock, nothing to pay.</p></div>
+<div id="clist"></div></main>
+</div>
+
+<nav class="tabs" role="tablist">
+<button data-t="home" aria-selected="true"><span>🏠</span>Home</button>
+<button data-t="comm" aria-selected="false"><span>👥</span>Community</button>
+<button data-t="explore" aria-selected="false"><span>🔎</span>Explore</button>
+<button data-t="certs" aria-selected="false"><span>🏆</span>Certificates</button></nav>
+<button id="fab" aria-label="Ask Beep Buddy">💬</button>
+
+<div class="sheet" id="sheet" hidden><div role="dialog" aria-label="Your profile">
+<h2 style="margin-top:0">Which best describes you?</h2><p class="sub">Choose 12th student, undergraduate, PG or working professional. We tailor topics and depth to you.</p>
+<div class="opts" id="lv"></div>
+<input class="f" id="yr" placeholder="Year / stream, e.g. 2nd year BBA" aria-label="Year or stream">
+<button class="dark" id="sv">Save and personalise</button></div></div>
+
+<div class="ov" id="lesson" hidden><div id="lbody"></div></div>
+
+<div class="ov" id="chat" hidden><div>
+<button class="back" id="cclose" aria-label="Close chat">←</button>
+<h2 style="margin-top:0">💬 Beep Buddy</h2>
+<p class="sub" id="mode">Instant answers are on. Ask what to do next, or ask about your lessons.</p>
+<button class="opt" id="ai" style="text-align:center">🧠 Turn on AI tutor (free · runs on your device · ~400 MB first time)</button>
+<div id="log"><div class="bub">Hi! Ask me a doubt, or ask where to tap next.</div></div>
+<div class="chips"><button data-q="What should I do next?">What do I do next?</button><button data-q="What can I do in this app?">What can I do here?</button><button data-q="How do I find internships?">Find internships</button><button data-q="How do I get my certificate?">Get my certificate</button><button data-q="How do I earn stars?">How do I earn stars?</button><button data-q="Explain my current topic">Explain my topic</button></div>
+<div class="row"><input id="cin" placeholder="Type your doubt..." aria-label="Your doubt"><button class="dark" id="send">Send</button></div>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LS={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const LV={school:"12th student",ug:"Undergraduate",pg:"Postgraduate",work:"Working professional"};
+const REC={school:0,ug:3,pg:5,work:3}; // which topic each level starts with
+const C={
+school:{list:[["📣","What is digital marketing?","Basics","#cfe3ff"],["📱","How do brands use Instagram?","Social Media","#ffe0cf"],["🔎","How does Google search work?","SEO","#d9f2d0"]]},
+ug:{list:[["📈","What makes one brand post go viral?","Social Media","#ffe0cf"],["🧾","Why do some brands get read while others get scrolled past?","Content Marketing","#d9f2d0"],["🎯","How does your shop show up in Google Ads?","Google Ads","#cfe3ff"]]},
+pg:{list:[["🧮","Attribution models: last-click vs data-driven","Analytics","#e2d9ff"],["⚖️","Budget allocation across channels","Strategy","#ffe0cf"],["🧪","Designing A/B tests that reach significance","Experimentation","#d9f2d0"]]},
+work:{list:[["🔧","Debugging conversion tracking across GA4 and Ads","Analytics","#cfe3ff"],["💼","Building a content calendar a team can run","Content","#d9f2d0"],["📉","Scaling spend without losing ROAS","Paid Ads","#ffe0cf"]]}};
+const RECHOOK={ug:"You spent ₹5,000 on ads and got zero customers. What went wrong?",pg:"Your ROAS is 2.5 but margins are 30%. Is the campaign actually profitable?",work:"CPA rose 40% while CTR stayed flat. Where do you look first?",school:"What actually makes a shop show up first on Google?"};
+const T=[
+{n:"SEO",e:"🔎",g:"linear-gradient(160deg,#3a7bd5,#16233a)",h:"Why does your shop show up on page 5 of Google?",m:7,
+ p:["SEO means making your page easy for Google to find and trust. People search with words, so your page must use the same words they type.","Keywords are the words people search for. Put the main keyword in your page title and first lines, like 'cheap running shoes Bengaluru'.","Backlinks are links from other websites to yours. Google treats them like votes, so links from trusted sites help you rank higher."],
+ q:[{q:"What is a keyword?",o:["A password for your site","A word people type into a search","A paid ad"],a:1,w:"Keywords are the words people search for."},{q:"What does a backlink act like?",o:["A vote of trust","A discount code","A spam filter"],a:0,w:"Links from other sites tell Google your page is trusted."}]},
+{n:"Content Marketing",e:"✍️",g:"linear-gradient(160deg,#3d8b55,#14231a)",h:"Why do some brands get read while others get scrolled past?",m:8,
+ p:["Content marketing means sharing useful posts, videos or guides so people trust you before they buy. You help first, you sell later.","A good hook is the first line that makes someone stop. Questions and surprising facts work well, like 'Why did my 500 rupee post flop?'","A content calendar is a simple plan of what to post and when. It keeps you regular, and regular posting builds an audience."],
+ q:[{q:"What is the goal of content marketing?",o:["Help people so they trust you","Hide your product","Post as rarely as possible"],a:0,w:"You build trust by being useful first."},{q:"What does a content calendar do?",o:["Edits photos","Plans what to post and when","Counts followers"],a:1,w:"It keeps your posting planned and regular."}]},
+{n:"Social Media",e:"📱",g:"linear-gradient(160deg,#d6459b,#2d1030)",h:"What makes one brand post go viral while yours gets three likes?",m:7,
+ p:["Social media marketing means using Instagram, YouTube or LinkedIn to reach people. Each platform likes a different style of post.","Engagement means likes, comments, shares and saves. Platforms show your post to more people when many people react to it early.","Reels and short videos usually reach more new people than photos, because the platform pushes them to people who don't follow you yet."],
+ q:[{q:"What counts as engagement?",o:["Only follower count","Likes, comments, shares and saves","The time you posted"],a:1,w:"Engagement is how people react to your post."},{q:"Which format often reaches new people most?",o:["Short videos","Plain text only","Old posters"],a:0,w:"Platforms push short videos to non-followers."}]},
+{n:"Paid Ads",e:"💸",g:"linear-gradient(160deg,#4b8fd9,#1c1a14)",h:"You boosted a post for ₹500 and nobody bought. Why?",m:9,
+ p:["Paid ads mean paying a platform to show your message to chosen people. You decide who sees it, where, and how much you spend.","Targeting means choosing your audience by age, city and interests. Wide targeting wastes money, so aim at the people most likely to buy.","CTR is the share of people who click after seeing your ad. A low CTR usually means the headline or picture is not interesting enough."],
+ q:[{q:"What is targeting?",o:["Choosing who sees your ad","Choosing the ad colour","Deleting old ads"],a:0,w:"You pick the audience by age, city and interests."},{q:"A low CTR usually means...",o:["Too many sales","The ad isn't catching attention","The website is fast"],a:1,w:"Few people clicked, so the ad didn't attract them."}]},
+{n:"Email Marketing",e:"📧",g:"linear-gradient(160deg,#0f8b9d,#0b2a33)",h:"Why do people open some emails and delete others?",m:6,
+ p:["Email marketing means sending messages to people who agreed to hear from you. Your list is yours, unlike followers on an app.","The subject line decides if an email gets opened. Keep it short, clear and specific, like 'Your free resume checklist'.","Open rate is the share of people who open your email. If it is low, test a new subject line before changing anything else."],
+ q:[{q:"What decides if an email is opened?",o:["The footer","The subject line","The font"],a:1,w:"People decide from the subject line."},{q:"Low open rate: what do you test first?",o:["The subject line","The logo","The signature"],a:0,w:"Subject lines drive opens, so test them first."}]},
+{n:"Analytics",e:"📊",g:"linear-gradient(160deg,#5b4bd9,#14111f)",h:"Your page got 1,000 visits and 0 sales. How do you find out why?",m:8,
+ p:["Analytics means reading numbers about what people do on your page. It tells you what works so you stop guessing.","Conversion rate is the share of visitors who do what you want, like buying. 2 sales from 100 visits is a 2% conversion rate.","A funnel shows where people drop off, step by step. If many leave at the payment page, fix that page first."],
+ q:[{q:"Conversion rate means...",o:["Visitors who do the goal action","Total page views","Number of ads"],a:0,w:"It's the share who buy, sign up or take your goal action."},{q:"What does a funnel show?",o:["Where people drop off","Your ad budget","Your followers"],a:0,w:"It shows each step and where people leave."}]}
+];
+const N=T.length,GOOD=Math.ceil(N*0.7);
+
+// ---------- state ----------
+let P=LS.get("bc_profile",null)||{lvl:"ug",yr:""};const hadProfile=!!LS.get("bc_profile",null);
+let D=Object.assign({done:[],pts:0,cert:null},LS.get("bc_path",{}));
+let posts=LS.get("bc_posts",[]),me="guest",tmp=P.lvl;
+const saveD=()=>LS.set("bc_path",D);
+const ORD=()=>{const r=REC[P.lvl];return [r,...T.map((_,i)=>i).filter(i=>i!==r)]};
+const nxt=()=>ORD().find(i=>!D.done.includes(i)),nd=()=>D.done.length;
+const pct=()=>Math.round(nd()/N*100),ready=()=>nd()>=UNLOCK;
+const HINT=["Tap Start learning and read the quick lesson.","Now take the 2-question quiz.","Get 1 right to earn your star.","Assessment is open any time. You can take it now."];
+
+const tab=t=>{document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t==t));["home","comm","explore","certs"].forEach(x=>$(x).hidden=x!=t);window.scrollTo(0,0)};
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
+
+// ---------- home ----------
+function home(){const f=$("q").value.toLowerCase(),i=nxt(),fin=i===undefined,t=fin?null:T[i],ph=nd()>=GOOD?3:0,c=C[P.lvl];
+ const hook=fin?"You finished every topic!":(i===REC[P.lvl]?RECHOOK[P.lvl]:t.h);
+ const last=D.done.length?T[D.done[D.done.length-1]]:null;
+ $("home").innerHTML=`<h2 style="margin-top:0">Your progress</h2>
+ <div class="glass prog"><div class="shield" aria-hidden="true">👑</div><div style="flex:1"><b style="font-size:1.3rem;line-height:1.15;display:block">Master<br>Digital Marketing</b>
+ <div style="display:flex;gap:10px;align-items:center;margin:8px 0"><div class="bar"><i style="width:${pct()}%"></i></div><b>${pct()}%</b></div><span class="sub" style="margin:0">${N-nd()} topics left · ⭐ ${nd()} · ${D.pts} pts</span></div></div>
+ <p style="margin:0 2px 8px"><span class="chip">${LV[P.lvl]}${P.yr?" · "+esc(P.yr):""}</span><span class="chip">Content matched to you</span></p>
+ <div class="glass"><b>Your 4 simple steps</b><div class="steps">${["1 Read","2 Quiz","3 Earn ⭐","4 Assessment"].map((x,k)=>`<div class="stp ${k===ph?"on":k<ph?"ok":""}">${x}</div>`).join("")}</div><div class="sub" style="margin:8px 0 0">${HINT[ph]}</div>
+ <div class="dots">${ORD().map((k,j)=>`<div class="dot ${D.done.includes(k)?"d":k===i?"c":""}">${D.done.includes(k)?"⭐":j+1}</div>`).join("")}</div></div>
+ <h2>${fin?"All done":"Do this now"}</h2>
+ <div class="hero" style="background:${fin?"#2e9e6a":t.g}"><span class="tag">DIGITAL MARKETING</span><span class="em">${fin?"🎉":t.e}</span>${fin?"":`<small>${t.m} min read</small>`}<h3>${esc(hook)}</h3>${fin?"":`<small>Learn ${esc(t.n)}</small><button class="pill" id="sl">Start learning →</button>`}</div>
+ ${last?`<div class="glass"><b style="font-size:1.1rem">● Revise</b><p class="sub" style="margin:4px 0 12px">Last topic you finished.</p><div class="cont" id="rv"><div class="th" style="background:#f3dfc8">${last.e}</div><div><b>${esc(last.n)}</b><span class="res">Revise ›</span></div></div></div>`:""}
+ <div class="glass"><b>📝 Assessment · open any time</b><p class="sub" style="margin:6px 0 0">${nd()>=GOOD?`You have covered ${nd()} of ${N} topics. Good time to take it.`:"Pass with 50% or more for your free certificate. Learn a few topics first and you will score higher."}</p><button class="dark" id="asm">Take Assessment →</button></div>
+ <h2>Explore more in Digital Marketing</h2><div class="h-scroll">${c.list.filter(x=>!f||x[1].toLowerCase().includes(f)||x[2].toLowerCase().includes(f)).map(x=>`<div class="hero" style="background:linear-gradient(160deg,${x[3]},#6b5b7a)"><span class="tag">DIGITAL MARKETING</span><span class="em">${x[0]}</span><h3>${esc(x[1])}</h3><small>Learn ${esc(x[2])} · coming soon</small></div>`).join("")}</div>
+ <div class="big">Advance<span>courses</span></div>`;
+ if($("sl"))$("sl").onclick=()=>openLesson(i);
+ if($("rv"))$("rv").onclick=()=>openLesson(D.done[D.done.length-1]);
+ $("asm").onclick=()=>{tab("certs");startAssess()}}
+$("q").oninput=home;
+
+function explore(){$("esub").textContent="Your path for "+LV[P.lvl]+" students. Start anywhere.";
+ $("elist").innerHTML=ORD().map(i=>{const t=T[i],done=D.done.includes(i);
+  return `<div class="cont" data-i="${i}" style="margin:10px 0"><div class="th" style="background:#f3dfc8">${done?"⭐":t.e}</div><div><b>${esc(t.n)}</b><span class="sub" style="margin:2px 0">${esc(t.h)}</span></div></div>`}).join("");
+ document.querySelectorAll("#elist .cont").forEach(el=>el.onclick=()=>openLesson(+el.dataset.i))}
+
+// ---------- certificates ----------
+const certCard=()=>`<div class="cert"><span class="sub">Certificate of completion</span><h3 style="margin:6px 0">Digital Marketing</h3><p style="margin:0">Score ${D.cert.s}/${N} · ${LV[P.lvl]}${P.yr?" · "+esc(P.yr):""}</p><p class="sub" style="margin:6px 0 0">${esc(D.cert.d)}</p></div>`;
+function cert(){const el=$("clist");
+ el.innerHTML=(D.cert?certCard():"")+`<div class="post"><b>${D.cert?"Want a better score?":"Digital Marketing assessment"}</b><p class="sub" style="margin:6px 0 10px">${N} questions. Pass with 50% or more. Open any time, retake as often as you like.</p><button class="dark sm" id="sa">${D.cert?"Retake assessment":"Start assessment"}</button></div>`;
+ $("sa").onclick=startAssess}
+
+// ---------- lesson, quiz, assessment ----------
+let cur=0,qi=0,right=0,qs=[],mode="lesson";
+const closeOv=()=>{$("lesson").hidden=true;all()};
+function openLesson(i){cur=i;const t=T[i];mode="lesson";$("lesson").hidden=false;$("lesson").scrollTop=0;
+ $("lbody").innerHTML=`<button class="back" id="lb" aria-label="Back">←</button>
+ <div class="hero" style="background:${t.g};min-height:220px"><span class="tag">${esc(t.n.toUpperCase())}</span><span class="em">${t.e}</span><h3>${esc(t.h)}</h3><small>${t.m} min read</small></div>
+ ${t.p.map((x,k)=>`<div class="pt"><b>${k+1}.</b> ${esc(x)}</div>`).join("")}
+ <button class="dark" id="tq">Take the 2-question quiz</button><div id="qa"></div>`;
+ $("lb").onclick=closeOv;$("tq").onclick=()=>{qs=t.q;qi=0;right=0;$("tq").hidden=true;showQ()}}
+function showQ(){const q=qs[qi];
+ $("qa").innerHTML=`<p><b>Question ${qi+1} of ${qs.length}</b><br>${esc(q.q)}</p>`+q.o.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join("")+`<div id="why" class="sub" style="margin-top:10px"></div>`;
+ document.querySelectorAll("#qa .opt").forEach(b=>b.onclick=()=>pick(+b.dataset.k))}
+function pick(k){const q=qs[qi];
+ document.querySelectorAll("#qa .opt").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("ok");else if(j===k)b.classList.add("no")});
+ if(k===q.a){right++;D.pts+=5}
+ $("why").textContent=q.w;const nb=document.createElement("button");nb.className="dark";nb.textContent=qi+1<qs.length?"Next question":"See result";
+ nb.onclick=()=>{qi++;qi<qs.length?showQ():mode==="lesson"?finishTopic():finishAssess()};$("qa").appendChild(nb)}
+function finishTopic(){const ok=right>=1,first=ok&&!D.done.includes(cur);
+ if(first){D.done.push(cur);D.pts+=right===qs.length?15:10}saveD();
+ $("qa").innerHTML=ok?`<div class="pop">${first?"⭐ Topic complete!<br>+1 star":"Nice revision!"}</div>`:`<div class="pop">Not yet. Re-read and try again.</div>`;
+ const nb=document.createElement("button");nb.className="dark";nb.textContent=ok?"Back to home":"Re-read";nb.onclick=()=>{ok?(tab("home"),closeOv()):openLesson(cur)};$("qa").appendChild(nb)}
+function startAssess(){mode="assess";qs=T.map(t=>t.q[0]);qi=0;right=0;$("lesson").hidden=false;$("lesson").scrollTop=0;
+ $("lbody").innerHTML=`<button class="back" id="lb" aria-label="Back">←</button><h2 style="margin-top:0">Assessment</h2><p class="sub">${N} questions · pass with 50% or more · free certificate</p><div id="qa"></div>`;
+ $("lb").onclick=closeOv;showQ()}
+function finishAssess(){const pass=right/N>=0.5;
+ if(pass){if(!D.cert||right>D.cert.s)D.cert={s:right,d:new Date().toLocaleDateString()};D.pts+=20;saveD()}
+ $("qa").innerHTML=`<div class="pop">${pass?"🏆 You passed! "+right+"/"+N:"Score "+right+"/"+N+". Pass mark is 50%. Try again any time."}</div>${pass?'<p class="sub" style="text-align:center">Your free certificate is in Certificates.</p>':""}`;
+ const nb=document.createElement("button");nb.className="dark";nb.textContent=pass?"Go to Certificates":"Back";nb.onclick=()=>{tab(pass?"certs":"home");closeOv()};$("qa").appendChild(nb)}
+
+// ---------- profile ----------
+$("lv").innerHTML=Object.keys(LV).map(k=>`<button data-k="${k}" aria-pressed="false">${LV[k]}</button>`).join("");
+const pr=()=>document.querySelectorAll("#lv button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k==tmp));
+document.querySelectorAll("#lv button").forEach(b=>b.onclick=()=>{tmp=b.dataset.k;pr()});
+$("av").onclick=()=>{tmp=P.lvl;$("yr").value=P.yr;pr();$("sheet").hidden=false};
+$("sv").onclick=()=>{P={lvl:tmp,yr:$("yr").value.trim()};LS.set("bc_profile",P);$("sheet").hidden=true;all()};
+$("sheet").onclick=e=>{if(e.target==$("sheet"))$("sheet").hidden=true};
+
+// ---------- community (Reddit-style) ----------
+const CH=["Internships","Projects","Doubts","Resources"],CHI={Internships:"💼",Projects:"🛠️",Doubts:"❓",Resources:"📚"};
+let ch="All",sortBy="hot",openC={},drafts={};
+const myName=(()=>{let n=LS.get("bc_name",null);if(!n){n="student"+Math.floor(1000+Math.random()*9000);LS.set("bc_name",n)}return n})();
+const ago=ts=>{const m=Math.floor((Date.now()-ts)/6e4);return m<1?"just now":m<60?m+"m ago":m<1440?Math.floor(m/60)+"h ago":Math.floor(m/1440)+"d ago"};
+const score=p=>(p.base||0)+Object.values(p.votes||{}).reduce((a,b)=>a+b,0);
+const safeUrl=u=>/^https?:\/\//i.test(u)?u:"";
+if(!LS.get("bc_seeded",false)){const now=Date.now(),H=36e5;
+ posts=[
+ {id:"s1",ch:"Internships",title:"Sample: Social media intern roles. How do I stand out with no experience?",body:"I'm in my 2nd year and want a remote social media internship. I have no paid work yet. What should I put in my application?",by:"sample_student",ts:now-5*H,base:12,seed:1,answers:[{t:"Make 3 small practice posts for a local shop (even for free), screenshot the results, and link them in your application. Proof of work beats a long CV.",by:"sample_senior",ai:false}]},
+ {id:"s2",ch:"Projects",title:"Sample: Mini project idea for Paid Ads without spending money?",body:"My course wants a paid ads project but I don't want to spend real money. How can I do it?",by:"sample_student",ts:now-9*H,base:8,seed:1,answers:[{t:"Plan the campaign on paper: pick a product, define the audience, write 3 ad headlines, set an imaginary budget and predict the CTR. Then explain how you would test it. A well-reasoned plan is often accepted.",by:"sample_senior",ai:false}]},
+ {id:"s3",ch:"Doubts",title:"Sample: CTR vs conversion rate, what's the difference?",body:"I keep mixing these two up in my notes.",by:"sample_student",ts:now-26*H,base:15,seed:1,answers:[{t:"CTR = clicks ÷ impressions (did they click the ad?). Conversion rate = buyers ÷ visitors (did they buy after clicking?).",by:"sample_senior",ai:false}]},
+ {id:"s4",ch:"Resources",title:"Sample: Free tools to practise SEO",body:"Google Search Console, Google Trends and Google Keyword Planner are free and good for practice.",by:"sample_senior",ts:now-50*H,base:20,seed:1,answers:[]}
+ ].concat(posts);LS.set("bc_posts",posts);LS.set("bc_seeded",true)}
+function render(){
+ $("chbar").innerHTML=["All",...CH].map(c=>`<button class="cc ${c===ch?"on":""}" data-c="${c}">${c==="All"?"🌐":CHI[c]} ${c}</button>`).join("");
+ $("sortbar").innerHTML=[["hot","🔥 Hot"],["new","🆕 New"],["top","⬆️ Top"]].map(x=>`<button class="cc ${x[0]===sortBy?"on":""}" data-s="${x[0]}">${x[1]}</button>`).join("");
+ const now=Date.now(),hot=p=>score(p)/Math.pow((now-p.ts)/36e5+2,1.2);
+ const f=posts.filter(p=>ch==="All"||p.ch===ch).sort((a,b)=>sortBy==="new"?b.ts-a.ts:sortBy==="top"?score(b)-score(a):hot(b)-hot(a));
+ $("feed").innerHTML=f.length?f.map(p=>{const mine=(p.votes||{})[myName]||0,n=(p.answers||[]).length,u=safeUrl(p.link||"");
+  return `<div class="post"><div class="rp"><div class="vt"><button data-v="${p.id}|1" class="${mine===1?"on":""}" aria-label="Upvote">▲</button><b>${score(p)}</b><button data-v="${p.id}|-1" class="${mine===-1?"on":""}" aria-label="Downvote">▼</button></div>
+  <div class="pb"><span class="chip" style="background:#f3e6e0">${CHI[p.ch]||""} ${esc(p.ch)}</span>${p.seed?'<span class="chip" style="background:#e8ecf2">Sample</span>':""}<h4>${esc(p.title)}</h4>
+  <div class="meta">u/${esc(p.by)} · ${ago(p.ts)} · 💬 ${n}</div>${p.body?`<div class="body">${esc(p.body)}</div>`:""}${u?`<div class="body"><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">🔗 ${esc(u.slice(0,60))}</a></div>`:""}
+  <button class="link" data-c2="${p.id}">${openC[p.id]?"Hide":"Show"} comments (${n})</button>${p.ch==="Projects"||p.ch==="Doubts"?`<button class="link" data-ai="${p.id}">Get a hint</button>`:""}
+  ${openC[p.id]?`${(p.answers||[]).map(a=>`<div class="ans ${a.ai?"ai":""}"><b>${a.ai?"Hint":"u/"+esc(a.by||"student")}</b><br>${esc(a.t)}</div>`).join("")}<textarea class="f" rows="2" data-d="${p.id}" placeholder="Add a comment…" aria-label="Your comment">${esc(drafts[p.id]||"")}</textarea><button class="link" data-r="${p.id}">Comment</button>`:""}
+  </div></div></div>`}).join(""):`<p class="sub" style="margin-top:16px">No posts here yet. Be the first.</p>`;
+ document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{ch=b.dataset.c;render()});
+ document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{sortBy=b.dataset.s;render()});
+ document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{const [id,v]=b.dataset.v.split("|");vote(id,+v)});
+ document.querySelectorAll("[data-c2]").forEach(b=>b.onclick=()=>{openC[b.dataset.c2]=!openC[b.dataset.c2];render()});
+ document.querySelectorAll("[data-d]").forEach(t=>t.oninput=()=>{drafts[t.dataset.d]=t.value});
+ document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>reply(b.dataset.r,false));
+ document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>hint(b.dataset.ai))}
+function savePost(p){const i=posts.findIndex(x=>x.id==p.id);i<0?posts.unshift(p):posts[i]=p;LS.set("bc_posts",posts);render()}
+function vote(id,v){const p=posts.find(x=>x.id==id);if(!p)return;const votes={...(p.votes||{})};votes[myName]===v?delete votes[myName]:votes[myName]=v;savePost({...p,votes})}
+$("post").onclick=()=>{const title=$("ptitle").value.trim();if(!title){$("cst").textContent="Add a title first.";return}
+ savePost({id:"p"+Date.now(),ch:$("pch").value,title,body:$("pbody").value.trim(),link:$("plink").value.trim(),by:myName,ts:Date.now(),votes:{[myName]:1},answers:[]});
+ $("ptitle").value=$("pbody").value=$("plink").value="";$("cst").textContent="Posted.";ch="All";sortBy="new";render()};
+function reply(id,ai,text){const p=posts.find(x=>x.id==id),t=(text||drafts[id]||"").trim();if(!t||!p)return;drafts[id]="";openC[id]=true;savePost({...p,answers:[...(p.answers||[]),{t,ai,by:ai?"hint":myName}]})}
+const TIPS={school:["Start with the plain-English meaning of the key term, then think of one example from a shop or brand you know.","Write the question in your own words first. Then list what you already know. The gap is what to ask next."],
+ug:["Break it into cause and effect: what did the brand do, what did the customer see, what changed? Try applying one concept from your course to it.","Pick one metric (like CTR or conversion rate) and ask how it would change in this case. Post your reasoning so others can check it."],
+pg:["Frame it as a trade-off: what are you optimising, under what constraint? Check the numbers (margin, ROAS, CAC) before choosing a strategy.","Ask what assumption the question hides. Test it with a small example and note when the conclusion would flip."],
+work:["Check the simplest cause first: tracking, targeting, then creative. Compare this week with last week for one change at a time.","Define the success metric, find where the funnel drops, and fix that stage before scaling anything."]};
+const KEY=[["quality score","Quality Score depends on expected CTR, ad relevance and landing page experience, so improving these often cuts cost more than raising the bid."],["roas","ROAS only means something next to your margin: compare it with break-even ROAS (1 ÷ margin)."],["viral","Viral posts usually hit a strong emotion, are easy to share, and fit a platform trend."],["seo","SEO starts with what people actually search for. Match one page to one search intent, then improve content and links."],["budget","Test small first: split the budget across two ad sets, wait for enough clicks, and move spend to the better one."],["project","For a project, pick one small real problem, choose one number to improve, run it for two weeks, and write down what changed."],["intern","For an internship application, show who you are, one thing you built and one result. Link proof of work and send it to the person running the team."]];
+function hint(id){const p=posts.find(x=>x.id==id);if(!p)return;const q=(p.title+" "+(p.body||"")).toLowerCase();
+ const k=KEY.find(x=>q.includes(x[0])),t=TIPS[P.lvl];reply(id,true,(k?k[1]+" ":"")+t[p.title.length%t.length])}
+
+// ---------- Beep Buddy chatbot ----------
+const STOP=new Set("the a an is are of to in on and or for what why how do does i my me it this that with can you be".split(" "));
+const tok=s=>s.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>2&&!STOP.has(w)).map(w=>w.length>4?w.replace(/s$/,""):w);
+function bub(t,me){const d=document.createElement("div");d.className="bub"+(me?" me":"");d.textContent=t;$("log").appendChild(d);d.scrollIntoView({block:"end"});return d}
+function rules(q){const l=q.toLowerCase(),i=nxt(),t=i===undefined?null:T[i];
+ if(/pay|cost|price|fee|₹|rupee|free|money|much/.test(l))return "Everything is free: the topics, the assessment and the certificate. No payment anywhere.";
+ if(/assess|certif|exam|test|lock|unlock/.test(l))return `The assessment is open any time, with no lock. It has ${N} questions and you pass with 50% or more to get your free certificate. You can retake it to improve your score. You have finished ${nd()} of ${N} topics, and learning a few first helps you score higher.`;
+ if(/intern|job|opportunit|hiring|apply/.test(l))return "Open the Community tab and choose the Internships channel to see posts, or create a post to share one. When you apply, link proof of work, like a small project, instead of only a CV.";
+ if(/project/.test(l)&&/(idea|help|stuck|how|solve|start)/.test(l))return "Open Community > Projects. Post what you're stuck on, or read other posts. On a Projects or Doubts post, tap Get a hint for a quick pointer.";
+ if(/community|reddit|upvote|vote|post|comment|channel/.test(l))return "Community works like a forum. Pick a channel (Internships, Projects, Doubts, Resources), tap Create a post, and others can upvote and comment. Sort by Hot, New or Top.";
+ if(/profile|level|year|stream|avatar|change/.test(l))return "Tap the round letter at the top right to change your level (12th, UG, PG, working). Your topics reorder to fit you.";
+ if(/save|lost|reset|device|progress.*(gone|where)|clear/.test(l))return "Your progress and posts are saved in this browser, on this device. Clearing browser data resets them.";
+ if(/what.*(app|beep|campus)|what can i do|feature|about|how.*(work|use)/.test(l))return "Beep Campus helps you learn Digital Marketing step by step: 6 short topics with quizzes (earn ⭐ and points), a free assessment you can take any time, and a Community for internships, project help and doubts. Ask me about the app or the course.";
+ if(/next|start|begin|where|confus|what.*(do|tap)/.test(l))return t?`Tap "Start learning" on the Home card: ${t.n}. Read it, take the quiz, and get 1 right to earn a star. You're at ${pct()}%.`:"You finished every topic. Open Certificates and take the assessment.";
+ if(/star|point|streak|score|reward/.test(l))return "You earn a star and 10 points when you finish a topic (1 right answer in the quiz). A perfect quiz gives 15 points. Each right answer adds 5 points.";
+ return null}
+function retrieve(q){const w=tok(q);if(!w.length)return null;let best=null,bs=0;
+ T.forEach(t=>{[t.n+" "+t.h,...t.p].forEach((x,k)=>{const set=new Set(tok(x+(k?"":" "+t.n)));let s=0;w.forEach(a=>{if(set.has(a))s++});if(s>bs){bs=s;best={t,x,k}}})});
+ return bs>=2||(bs>=1&&w.length<=2)?`From ${best.t.n}: ${best.k?best.x:best.t.p[0]}`:null}
+let eng=null,busy=false;
+async function say(t){t=(t||"").trim();if(!t||busy)return;bub(t,1);$("cin").value="";busy=true;const w=bub("...",0);
+ try{let a=rules(t);
+  if(!a&&eng){const i=nxt(),c=T[i===undefined?0:i];
+   const sys=`You are Beep Buddy, a friendly helper inside Beep Campus, a free learning app with 6 Digital Marketing topics, a free assessment open any time, and a Community with Internships, Projects, Doubts and Resources channels. You help a ${LV[P.lvl]} with the course and the app. Answer in under 80 words, simple English, with one small example. Current topic: ${c.n}. Lesson notes: ${c.p.join(" ")}`;
+   const r=await eng.chat.completions.create({messages:[{role:"system",content:sys},{role:"user",content:t}],max_tokens:220});a=r.choices[0].message.content}
+  if(!a)a=retrieve(t);
+  w.textContent=a||"I don't know that one yet. Turn on the AI tutor above for open questions, post it in Community, or ask what to do next."}
+ catch(e){w.textContent="The AI tutor had a problem. Instant answers still work."}
+ busy=false}
+$("send").onclick=()=>say($("cin").value);$("cin").onkeydown=e=>{if(e.key==="Enter")say($("cin").value)};
+document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>say(b.dataset.q));
+$("fab").onclick=()=>$("chat").hidden=false;$("cclose").onclick=()=>$("chat").hidden=true;
+$("ai").onclick=async()=>{const b=$("ai");
+ if(!navigator.gpu){b.textContent="This browser can't run the AI tutor (needs Chrome or Edge with WebGPU). Instant answers still work.";b.disabled=true;return}
+ b.disabled=true;b.textContent="Loading AI tutor... 0%";
+ try{const wl=await import("https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm/+esm");
+  const ids=wl.prebuiltAppConfig.model_list.map(m=>m.model_id);
+  const pk=["Qwen2.5-0.5B-Instruct-q4f16_1-MLC","Llama-3.2-1B-Instruct-q4f16_1-MLC"].find(x=>ids.includes(x))||ids.find(x=>/0\.5B|1B/.test(x)&&/q4/.test(x));
+  eng=await wl.CreateMLCEngine(pk,{initProgressCallback:p=>{b.textContent="Loading AI tutor... "+Math.round((p.progress||0)*100)+"%"}});
+  b.textContent="✅ AI tutor is on";$("mode").textContent="AI tutor on. Ask any doubt about your topic."}
+ catch(e){b.textContent="Couldn't load the AI tutor. Instant answers still work.";b.disabled=false}};
+
+// ---------- boot ----------
+function all(){home();explore();cert();$("av").textContent=LV[P.lvl][0];$("csub").textContent="Ask doubts and help batchmates ("+LV[P.lvl]+")";render()}
+all();if(!hadProfile){tmp=P.lvl;pr();$("sheet").hidden=false}
+</script></body></html>
